@@ -5,15 +5,33 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEvtSportifRequest;
 use App\Http\Requests\UpdateEvtSportifRequest;
 use App\Models\EvtSportif;
+use Illuminate\Http\Request;
+
 
 class EvtSportifController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return EvtSportif::all();
+        $query = EvtSportif::query();
+
+        if ($request->has('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->has('location')) {
+            $query->where('location', $request->location);
+        }
+
+        if ($request->has('date')) {
+            $query->where('date', $request->date);
+        }
+
+        $Evt = $query->paginate(5); 
+
+        return $Evt;
     }
 
     /**
@@ -63,4 +81,9 @@ class EvtSportifController extends Controller
 
         return $evtSportif;
     }
+
+
+  
+
+ 
 }
