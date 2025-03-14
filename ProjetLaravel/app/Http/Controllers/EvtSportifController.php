@@ -6,6 +6,7 @@ use App\Http\Requests\StoreEvtSportifRequest;
 use App\Http\Requests\UpdateEvtSportifRequest;
 use App\Models\EvtSportif;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class EvtSportifController extends Controller
@@ -41,6 +42,8 @@ class EvtSportifController extends Controller
     {
         $information = $request->validated();
 
+        $information['slug'] = Str::slug($information['category']);
+
         $Evt = EvtSportif::create($information);
 
         return $Evt;
@@ -50,9 +53,9 @@ class EvtSportifController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show($id)
     {
-        $evtSportif = EvtSportif::find($id);
+        $evtSportif = EvtSportif::findOrFail($id);
         return $evtSportif;
     }
 

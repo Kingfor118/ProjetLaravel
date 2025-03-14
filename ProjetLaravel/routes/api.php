@@ -17,9 +17,18 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
+
 Route::get('/events', [EvtSportifController::class, 'index']);
 Route::get('/events/{id}', [EvtSportifController::class, 'show']);
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/attach', [UserController::class, 'Inscription']);
+    Route::get('/attach', [UserController::class, 'ListInscription']);
+    Route::delete('/attach/{id}', [UserController::class, 'Desinscription']);
+});
