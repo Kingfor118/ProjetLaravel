@@ -42,7 +42,7 @@ class EvtSportifController extends Controller
     {
         $information = $request->validated();
 
-        $information['slug'] = Str::slug($information['category']);
+        $information['slug'] = Str::slug($information['title']);
 
         $Evt = EvtSportif::create($information);
 
@@ -53,10 +53,34 @@ class EvtSportifController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(string $slug = null, int $id = null)
     {
-        $evtSportif = EvtSportif::findOrFail($id);
-        return $evtSportif;
+
+        if(is_numeric($slug) && is_null($id))
+        {
+            $id = $slug;
+            $slug = null;
+        }
+
+        if (is_null($slug) && !is_null($id)) 
+        {
+            $evtSportif = EvtSportif::findOrFail($id);   
+
+            return $evtSportif;
+        } 
+        if (!is_null($slug) && is_null($id)) 
+        {
+            $evtSportif = EvtSportif::where('slug', $slug)->get();  
+            
+            return $evtSportif;
+        } 
+
+            $evtSportif = EvtSportif::where('id',$id)->where('slug', $slug)->get();  
+            return $evtSportif;
+
+
+
+                
     }
 
     /**

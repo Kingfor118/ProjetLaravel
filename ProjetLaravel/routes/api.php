@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::get('/events', [EvtSportifController::class, 'index']);
-Route::get('/events/{id}', [EvtSportifController::class, 'show']);
+Route::get('/events/{slug?}/{id?}', [EvtSportifController::class, 'show']);
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
