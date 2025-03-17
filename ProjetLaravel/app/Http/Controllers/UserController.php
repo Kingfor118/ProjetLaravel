@@ -21,10 +21,24 @@ class UserController extends Controller
 
         $Evt = EvtSportif::findOrFail($IdEvt);
 
+        $ListIdUser = $user->EvtSportifs->pluck('id')->toArray();
+
+        foreach ($ListIdUser as $IdUser)
+        {
+            if($IdUser == $IdEvt)
+            {
+                return [
+                    "message"=>"vous êtes déjà inscrit à cette evenement"
+                ];
+            }
+        }
+
         $user->evtsportifs()->attach($IdEvt);
 
 
-        return $Evt;
+        return [
+            "message"=>"vous vous êtes inscrit au match $Evt->title Situé à $Evt->location Pour le $Evt->date"
+        ];
     }
 
     public function ListInscription(Request $request)
@@ -41,10 +55,26 @@ class UserController extends Controller
         $user = $request->user();
 
         $Evt = EvtSportif::findOrFail($id);
+        
+        $ListIdUser = $user->EvtSportifs->pluck('id')->toArray();
 
-        $user->evtsportifs()->detach($Evt);
 
-        return $Evt;
+        foreach ($ListIdUser as $IdUser)
+        {
+            if($IdUser == $id)
+            {
+                $user->evtsportifs()->detach($Evt);
+
+                return [
+                    'message'=>"vous vous êtes désincrit pour le match $Evt->title Situé à $Evt->location pour le $Evt->date"
+                ];
+            }
+        }
+
+        return [
+            "message"=>"Vous n'êtes pas inscrit à cette Evenement"
+
+        ];
     }
 
     public function register(UserRegisterRequest $request)
@@ -55,8 +85,7 @@ class UserController extends Controller
         $token = $user->createToken($request->name);
 
         return [
-            'user' => $user,
-            'token' => $token->plainTextToken
+            'message' => "vous vous êtes enregistrer"
         ];
 
     }

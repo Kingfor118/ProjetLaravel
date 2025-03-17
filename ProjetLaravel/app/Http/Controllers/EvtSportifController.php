@@ -30,7 +30,7 @@ class EvtSportifController extends Controller
             $query->where('date', $request->date);
         }
 
-        $Evt = $query->paginate(5); 
+        $Evt = $query->paginate(5);
 
         return $Evt;
     }
@@ -47,40 +47,32 @@ class EvtSportifController extends Controller
         $Evt = EvtSportif::create($information);
 
         return $Evt;
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $slug = null, int $id = null)
+    public function show($slug = null, $id = null)
     {
 
-        if(is_numeric($slug) && is_null($id))
-        {
+        if (is_numeric($slug) && is_null($id)) {
             $id = $slug;
             $slug = null;
         }
 
-        if (is_null($slug) && !is_null($id)) 
-        {
-            $evtSportif = EvtSportif::findOrFail($id);   
+        if (is_null($slug) && !is_null($id)) {
+            $evtSportif = EvtSportif::findOrFail($id);
 
             return $evtSportif;
-        } 
-        if (!is_null($slug) && is_null($id)) 
-        {
-            $evtSportif = EvtSportif::where('slug', $slug)->get();  
-            
+        }
+        if (!is_null($slug) && is_null($id)) {
+            $evtSportif = EvtSportif::where('slug', $slug)->get();
+
             return $evtSportif;
-        } 
+        }
 
-            $evtSportif = EvtSportif::where('id',$id)->where('slug', $slug)->get();  
-            return $evtSportif;
-
-
-
-                
+        $evtSportif = EvtSportif::where('id', $id)->where('slug', $slug)->get();
+        return $evtSportif;
     }
 
     /**
@@ -90,12 +82,13 @@ class EvtSportifController extends Controller
     {
         $information = $request->validated();
 
+        $information['slug'] = Str::slug($information['title']);
+
         $evtSportif = EvtSportif::find($id);
 
         $evtSportif->update($information);
 
         return $evtSportif;
-
     }
 
     /**
@@ -108,9 +101,4 @@ class EvtSportifController extends Controller
 
         return $evtSportif;
     }
-
-
-  
-
- 
 }

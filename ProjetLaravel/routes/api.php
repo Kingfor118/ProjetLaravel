@@ -28,7 +28,7 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanc
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/attach', [UserController::class, 'Inscription']);
-    Route::get('/attach', [UserController::class, 'ListInscription']);
-    Route::delete('/attach/{id}', [UserController::class, 'Desinscription']);
+    Route::post('/inscription', [UserController::class, 'Inscription']);
+    Route::get('/inscription', [UserController::class, 'ListInscription']);
+    Route::delete('/inscription/{id}', [UserController::class, 'Desinscription']);
 });

@@ -23,7 +23,7 @@ class UpdateEvtSportifRequest extends FormRequest
     {
         return [
             'title'=>'required|max:255',
-            'slug'=>'required|string|max:255',
+            'slug'=>'string|slug|max:255',
             'description'=>'required|string',
             'location'=>'required|max:255',
             'date'=>'required|date|max:255',
