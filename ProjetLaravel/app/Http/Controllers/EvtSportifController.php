@@ -84,7 +84,7 @@ class EvtSportifController extends Controller
 
         $information['slug'] = Str::slug($information['title']);
 
-        $evtSportif = EvtSportif::find($id);
+        $evtSportif = EvtSportif::findOrFail($id);
 
         $evtSportif->update($information);
 
@@ -96,7 +96,7 @@ class EvtSportifController extends Controller
      */
     public function destroy(int $id)
     {
-        $evtSportif = EvtSportif::find($id);
+        $evtSportif = EvtSportif::findOrFail($id);
         $evtSportif->delete();
 
         return $evtSportif;

@@ -82,8 +82,6 @@ class UserController extends Controller
         $credential = $request->validated();
         $user = User::create($credential);
 
-        $token = $user->createToken($request->name);
-
         return [
             'message' => "vous vous êtes enregistrer"
         ];
@@ -98,9 +96,7 @@ class UserController extends Controller
 
         if(!$user || !Hash::check($credential->password, $user->password))
         {
-            return[
-                'message'=>'Mot de passe ou email incorrect'
-            ];
+            return response()->json(['message'=>'Mot de passe ou email incorrect'], 404);
         }
 
         $token = $user->createToken($user->name);
